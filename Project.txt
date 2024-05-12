@@ -1,0 +1,51 @@
+import os
+import cv2
+#The List are Decleared To Add The Name,College Name, Department,Event
+namelist = []
+department = []
+Clg=[]
+event=[]
+print("This May Take Few Seconds Based On Data And Your Computer Speed ! Please Wait")
+#To Erase The Old Data
+def erase_old_data():
+    for i in os.listdir("generated certificate/"):
+        os.remove(f'generated certificate/{i}')
+#To add Name In The List
+def addname():
+    with open("Name.txt") as file:
+        for line in file:
+            namelist.append(line.strip())
+#To add Department In The List
+def add_department():
+    with open ("department.txt") as file1:
+        for line1 in file1:
+            department.append(line1.strip())
+#To add College Name In The List
+def add_Clg():
+    with open ("college name.txt") as file2:
+        for line2 in file2:
+            Clg.append(line2.strip())
+#To add Event In The List
+def add_event():
+    with open ("Event.txt") as file3:
+        for line3 in file3:
+            event.append(line3.strip())
+#This Function Is Used To Write The Name ,Department ,College Name And The Event In The Certificate
+def certificate():
+    for name,department1,clg, EVENT  in zip  (namelist,department,Clg , event):#zip() is used to make connection bewteen more tha one list
+        cer = cv2.imread("Sample Certificate.jpg")#To Read The Sample Certificate
+        #Write Text (Where,What,Co-ordinates,Font,Size,Colour,Thickness,Stright Line)
+        cv2.putText(cer, name, (1297, 1257), cv2.FONT_HERSHEY_SIMPLEX, 4, (0, 0, 0), 5, cv2.LINE_AA)#To Write The Name In Certificate
+        cv2.putText(cer, department1, (285, 1457), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 3, cv2.LINE_AA)#To Write The Department In Certificate
+        cv2.putText(cer, clg, (1701, 1469), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0), 3, cv2.LINE_AA)#To Write The College Name In Certificate
+        cv2.putText(cer, EVENT, (957, 1673), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 0),3, cv2.LINE_AA)#To Write The Event In Certificate
+        cv2.imwrite(f'generated certificate/{name}.jpg', cer)#This Is To Save The Ceritificate After Writing The Name , Department , College Name, Event
+def Execute():
+    erase_old_data()
+    addname()
+    add_department()
+    add_Clg()
+    add_event()
+    certificate()
+Execute()
+print("Your Certificate Is Ready ! ")
